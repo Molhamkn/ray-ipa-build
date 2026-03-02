@@ -1,0 +1,21 @@
+name: Build iOS IPA
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build IPA
+        run: |
+          chmod +x src/build.sh
+          cd src
+          ./build.sh
+      
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: RayAssistant.ipa
+          path: src/RayAssistant.ipa
