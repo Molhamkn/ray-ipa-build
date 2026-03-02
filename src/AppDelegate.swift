@@ -7,6 +7,7 @@ import UserNotifications
 import Network
 import Speech
 
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var audioEngine: AVAudioEngine!
