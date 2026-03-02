@@ -18,7 +18,6 @@ clang -target arm64-apple-ios17.0 -isysroot "$SDKROOT" \
 mkdir -p Payload/RayAssistant.app
 cp RayAssistant Payload/RayAssistant.app/
 cp Info.plist Payload/RayAssistant.app/
-cp -r Assets.xcassets Payload/RayAssistant.app/
 #------------------------------------------------- 
 # 4️⃣ Package as unsigned IPA
 zip -r9 RayAssistant.ipa Payload
