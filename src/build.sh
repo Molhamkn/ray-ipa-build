@@ -7,7 +7,7 @@ SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)
 # 1️⃣ Compile the Swift sources
 swiftc -target arm64-apple-ios13.0 -sdk "$SDKROOT" -O \
        -framework UIKit -framework AVFoundation -framework UserNotifications \
-       -emit-library -c AppDelegate.swift main.swift -o RayAssistant.o
+       -c AppDelegate.swift main.swift -o RayAssistant.o
 #------------------------------------------------- 
 # 2️⃣ Link into an iOS executable
 clang -target arm64-apple-ios13.0 -isysroot "$SDKROOT" \
