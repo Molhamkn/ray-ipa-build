@@ -6,11 +6,11 @@ IOS_VERSION=$(xcrun --sdk iphoneos --show-sdk-version)
 
 #------------------------------------------------- 
 # 1️⃣ Compile Swift sources
-swiftc -target arm64-apple-ios17.0 -sdk "$SDKROOT" -O -parse-as-library -c AppDelegate.swift -o AppDelegate.o
+swiftc -target arm64-apple-ios15.0 -sdk "$SDKROOT" -O -parse-as-library -c AppDelegate.swift -o AppDelegate.o
 
 #------------------------------------------------- 
 # 2️⃣ Link into an iOS executable
-clang -target arm64-apple-ios17.0 -isysroot "$SDKROOT" \
+clang -target arm64-apple-ios15.0 -isysroot "$SDKROOT" \
       AppDelegate.o -framework UIKit -framework AVFoundation \
       -framework UserNotifications -framework Foundation \
       -Wl,-rpath,@executable_path/Frameworks -o RayAssistant
