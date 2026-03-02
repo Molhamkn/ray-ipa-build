@@ -5,11 +5,13 @@
     <key>CFBundleIdentifier</key>
     <string>com.yourname.rayassistant</string>
     <key>CFBundleName</key>
-    <string>RayAssistant</string>
+    <string>Ray</string>
     <key>CFBundleExecutable</key>
     <string>RayAssistant</string>
     <key>CFBundleVersion</key>
     <string>1.0</string>
+    <key>MinimumOSVersion</key>
+    <string>15.0</string>
     <key>UIBackgroundModes</key>
     <array>
         <string>audio</string>
@@ -21,7 +23,5 @@
     <array>
         <string>voip</string>
     </array>
-    <key>MinimumOSVersion</key>
-    <string>15.0</string>
 </dict>
 </plist>
