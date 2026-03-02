@@ -2,7 +2,6 @@
 set -e
 
 SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)
-IOS_VERSION=$(xcrun --sdk iphoneos --show-sdk-version)
 
 #------------------------------------------------- 
 # 1️⃣ Compile Swift sources
@@ -19,6 +18,7 @@ clang -target arm64-apple-ios16.0 -isysroot "$SDKROOT" \
 mkdir -p Payload/RayAssistant.app
 cp RayAssistant Payload/RayAssistant.app/
 cp Info.plist Payload/RayAssistant.app/
+cp -r Assets.xcassets Payload/RayAssistant.app/
 #------------------------------------------------- 
 # 4️⃣ Package as unsigned IPA
 zip -r9 RayAssistant.ipa Payload
