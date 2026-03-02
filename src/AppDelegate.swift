@@ -37,6 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.makeKeyAndVisible()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.startServices()
+        }
+        
+        return true
+    }
+    
+    private func startServices() {
         enableBackgroundModes()
         SFSpeechRecognizer.requestAuthorization { _ in }
         AVAudioSession.sharedInstance().requestRecordPermission { _ in }
@@ -44,7 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         connectWebSocket()
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
-        return true
     }
 
     private func enableBackgroundModes() {
@@ -54,14 +61,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func startMicrophoneCapture() {
-        audioEngine = AVAudioEngine()
-        inputNode = audioEngine.inputNode
-        let format = inputNode.outputFormat(forBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
-            self.sendSTT(text: "placeholder transcript")
+        do {
+            audioEngine = AVAudioEngine()
+            inputNode = audioEngine.inputNode
+            let format = inputNode.outputFormat(forBus: 0)
+            inputNode.installTap(onBus: 0, bufferSize: 1024, format: format) { buffer, _ in
+                self.sendSTT(text: "placeholder transcript")
+            }
+            audioEngine.prepare()
+            try audioEngine.start()
+        } catch {
+            print("Mic error:", error)
         }
-        audioEngine.prepare()
-        try? audioEngine.start()
     }
 
     private func sendSTT(text: String) {
@@ -76,12 +87,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func connectWebSocket() {
-        let url = URL(string: "wss://45.120.55.38:8765")!
-        let session = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
-        wsTask = session.webSocketTask(with: url)
-        wsTask.resume()
-        isConnected = true
-        receiveMessages()
+        do {
+            let url = URL(string: "wss://45.120.55.38:8765")!
+            let session = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
+            wsTask = session.webSocketTask(with: url)
+            wsTask.resume()
+            isConnected = true
+            receiveMessages()
+        } catch {
+            print("WebSocket error:", error)
+        }
     }
 
     private func receiveMessages() {
